@@ -14,7 +14,19 @@ Copies AGE_Frame::copies;
 
 bool AGE::OnInit()
 {
-#if __WXGTK3__
+#if defined(__WXGTK3__) || defined(__WXGTK4__)
+    wxMessageBox(wxT(
+                "You are using the GTK 3 (or later) version of wxWidgets, which is _very_ slow and has severe issues.\n"
+                "\n"
+                "Please don't file bugs missing graphics, glitching buttons, laggy or non-responsive UI or other UI issues.\n"
+                "\n"
+                "For optimal performance use wxqt or wxgtk2.\n"
+                "Due to the nature of wxWidgets you will need to re-build AGE after replacing your current wxWidgets installation."
+            ),
+            wxT("Using GTK 3"),
+            wxICON_ERROR
+        );
+
     // shut gtk the fuck up, why the fuck is gtk still used anywhere
     g_log_set_default_handler([](const gchar*, GLogLevelFlags, const gchar*,gpointer){}, nullptr);
     g_log_set_writer_func([](GLogLevelFlags, const GLogField*, gsize, gpointer) {
